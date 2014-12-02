@@ -23,6 +23,7 @@ class GeoSwitchAdmin {
         register_setting( 'geoswitch_options', 'geoswitch_options', array('GeoSwitchAdmin', 'validate') );
         add_settings_section('geoswitch_main', 'General Settings', array('GeoSwitchAdmin', 'main_section_text'), 'geoswitch_options_main_page');
         add_settings_field('geoswitch_database_name', 'MaxMind Database Name', array('GeoSwitchAdmin', 'database_name'), 'geoswitch_options_main_page', 'geoswitch_main');
+        add_settings_field('geoswitch_units', 'Distance Units', array('GeoSwitchAdmin', 'units'), 'geoswitch_options_main_page', 'geoswitch_main');
     }
 
     public static function add_menu() {
@@ -33,18 +34,14 @@ class GeoSwitchAdmin {
 ?>
 <div>
 <h2>GeoSwitch Plugin Options</h2>
-<p>If you find this plugin useful consider a donation.</p>
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-<input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="C7QAD2M3L5T6E">
-<input type="image" src="https://www.paypalobjects.com/en_AU/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal — The safer, easier way to pay online.">
-<img alt="" border="0" src="https://www.paypalobjects.com/en_AU/i/scr/pixel.gif" width="1" height="1">
-</form>
+<p>If you find this plugin useful why not</p>
+<a href='http://ko-fi.com?i=8d1dbd20374ff5c' target='_blank'><img style='border:0px' src='http://ko-fi.com/img/button-1.png' border='0' alt='Buy Me A Coffee :) @ ko-fi.com' /></a>
 
 <form method="post" action="options.php">
-<?php settings_fields('geoswitch_options'); ?>
-<?php do_settings_sections('geoswitch_options_main_page'); ?>
- 
+<?php 
+    settings_fields('geoswitch_options');
+    do_settings_sections('geoswitch_options_main_page'); 
+?>
 <input name="Submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />
 </form>
 <?php
@@ -56,15 +53,36 @@ class GeoSwitchAdmin {
     public static function database_name() {
         $options = get_option('geoswitch_options');
 ?>
-<input id='geoswitch_database_name' name='geoswitch_options[database_name]' size='100' type='text' value='<?= $options['database_name']?>' />
+<input id='geoswitch_database_name' name='geoswitch_options[database_name]' size='64' type='text' value='<?= $options['database_name']?>' />
+<?php
+    }
+
+    public static function units() {
+        $options = get_option('geoswitch_options');
+?>
+<select id='geoswitch_units' name='geoswitch_options[units]'>
+  <option value="km" <?=selected($options['units'], 'km', false)?>>Kilometers</option>
+  <option value="m" <?=selected($options['units'], 'm', false)?>>Miles</option>
+</select>
 <?php
     }
 
     public static function validate($input)
     {
-        $newinput['database_name'] = trim($input['database_name']);
-        if(!preg_match('/^[a-z0-9._]+/i', $newinput['text_string'])) {
-            $newinput['text_string'] = 'GeoLite2-City.mmdb';
+        if (isset($input['database_name'])) {
+            $newinput['database_name'] = trim($input['database_name']);
+            if(!preg_match('/^[a-z0-9._]+/i', $newinput['database_name'])) {
+                $newinput['database_name'] = 'GeoLite2-City.mmdb';
+            }
+        } else {
+            $newinput['database_name'] = 'GeoLite2-City.mmdb';
+        }
+            
+        if (isset($input['units'])) {
+            $newinput['units'] = ($input['units'] == 'm' ? 'm' : 'km');
+            
+        } else {
+            $newinput['units'] = 'km';
         }
         return $newinput;
     }
