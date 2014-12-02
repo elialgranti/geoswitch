@@ -26,7 +26,7 @@ class GeoSwitch {
             $database = GEOSWITCH_PLUGIN_DIR . 'database/' . $opt['database_name'];
             $reader = new GeoIp2\Database\Reader($database);
 
-            self::$record = $reader->city('58.166.111.213'); //self::$user_ip);
+            self::$record = $reader->city(self::$user_ip);
         } catch (Exception $e) {
             self::$record = null;
         }
