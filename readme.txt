@@ -23,7 +23,7 @@ Please open a new [issue](https://github.com/elialgranti/geoswitch/issues) if yo
 Apache License version 2.0**
 
 == Installation ==
-=Prerequisites=
+= Prerequisites =
 The Geoswitch plugin uses MaxMind’s city database you’ll need either the free GeoLite2 city database 
 (download from [here](http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz)) or obtain a license from MaxMind 
 for a GeoIP2 citydatabase.
