@@ -1,7 +1,7 @@
 === Geocode Switch ===
 Contributors: elialgranti
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=C7QAD2M3L5T6E
-Tags: geocode, geocode switch, geocode filter, geotag, geomarketing, geomarking, geolocation, geofilter, location, local marketing
+Tags: geocode, geocode switch, geocode filter, geotag, geomarketing, geomarking, geolocation, geofilter, location, local marketing, GeoIP2, MaxMind
 Version: 1.0.0
 Requires at least: 3.0
 Tested up to: 4.0.1
@@ -15,7 +15,11 @@ GeoSwitch is a plugin that allows you to change the content of your site based o
 GeoSwitch uses the new the new GeoIP2 [MaxMind](https://www.maxmind.com) databases to geolocate users based on IP.
 MaxMind offers free and paid geolocation databases, the author of this plugin is not affiliated with MaxMind in any way.
 
-**This plugin uses the [MaxMind PHP library](http://maxmind.github.io/GeoIP2-php/) which is released under the Apache License version 2.0**
+The main development of this plugin is in [github](https://github.com/elialgranti/geoswitch). 
+Please open a new [issue](https://github.com/elialgranti/geoswitch/issues) if you find a bug in this plugin.
+
+**This plugin uses the [MaxMind PHP library](http://maxmind.github.io/GeoIP2-php/) which is released under the 
+Apache License version 2.0**
 
 == Prerequisites ==
 
