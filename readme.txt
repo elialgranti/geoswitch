@@ -12,7 +12,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 == Description ==
 
 GeoSwitch is a plugin that allows you to change the content of your site based on the location of your client’s IP.
-GeoSwitch uses [MaxMind](https://www.maxmind.com) databases to geolocate users based on IP.
+GeoSwitch uses the new the new GeoIP2 [MaxMind](https://www.maxmind.com) databases to geolocate users based on IP.
 MaxMind offers free and paid geolocation databases, the author of this plugin is not affiliated with MaxMind in any way.
 
 **This plugin uses the [MaxMind PHP library](http://maxmind.github.io/GeoIP2-php/) which is released under the Apache License version 2.0**
