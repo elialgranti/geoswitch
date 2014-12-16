@@ -9,8 +9,8 @@ class GeoSwitchAdmin {
     private static $initialized = false;
     private static $user_ip = null;
     private static $record = null;
-	
-	public static function init() {
+    
+    public static function init() {
         if (self::$initialized) {
             return;
         }
@@ -23,6 +23,8 @@ class GeoSwitchAdmin {
         register_setting( 'geoswitch_options', 'geoswitch_options', array('GeoSwitchAdmin', 'validate') );
         add_settings_section('geoswitch_main', 'General Settings', array('GeoSwitchAdmin', 'main_section_text'), 'geoswitch_options_main_page');
         add_settings_field('geoswitch_database_name', 'MaxMind Database Name', array('GeoSwitchAdmin', 'database_name'), 'geoswitch_options_main_page', 'geoswitch_main');
+        add_settings_field('geoswitch_service_user_name', 'User Name', array('GeoSwitchAdmin', 'service_user_name'), 'geoswitch_options_main_page', 'geoswitch_main');
+        add_settings_field('geoswitch_service_user_password', 'Password', array('GeoSwitchAdmin', 'service_user_password'), 'geoswitch_options_main_page', 'geoswitch_main');
         add_settings_field('geoswitch_units', 'Distance Units', array('GeoSwitchAdmin', 'units'), 'geoswitch_options_main_page', 'geoswitch_main');
     }
 
@@ -54,6 +56,24 @@ class GeoSwitchAdmin {
         $options = get_option('geoswitch_options');
 ?>
 <input id='geoswitch_database_name' name='geoswitch_options[database_name]' size='64' type='text' value='<?= $options['database_name']?>' />
+
+<?php
+    }
+
+    public static function service_user_name() {
+        $options = get_option('geoswitch_options');
+?>
+<input id='geoswitch_service_user_name', name='geoswitch_options[service_user_name'] size='64' type='text' value='<?= $options['service_user_name']?>' />
+
+<?php
+    }
+
+    public static function service_user_password() {
+        $options = get_option('geoswitch_options');
+?>
+<input id='geoswitch_service_user_name', name='geoswitch_options[service_user_password'] size='64' type='text' value='<?= $options['service_user_password']?>' />
+
+
 <?php
     }
 
@@ -83,6 +103,16 @@ class GeoSwitchAdmin {
             
         } else {
             $newinput['units'] = 'km';
+        }
+        if (isset($input['service_user_name'])){
+            $newinput['service_user_name'] = trim($input['service_user_name']);
+        }else {
+            $newinput['service_user_name'] = '';
+        }
+         if (isset($input['service_user_password'])){
+            $newinput['service_user_password'] = trim($input['service_user_password']);
+        }else {
+            $newinput['service_user_password'] = '';
         }
         return $newinput;
     }
