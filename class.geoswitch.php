@@ -10,6 +10,7 @@ class GeoSwitch {
     private static $initialized = false;
     private static $user_ip = null;
     private static $record = null;
+    private static $data_source = null;
     private static $useKm = true;
 
 	public static function init() {
@@ -23,10 +24,8 @@ class GeoSwitch {
         try {
             $opt = get_option('geoswitch_options');
             $useKM = ($opt['units'] == 'km');
-            $database = GEOSWITCH_PLUGIN_DIR . 'database/' . $opt['database_name'];
-            $reader = new GeoIp2\Database\Reader($database);
-
-            self::$record = $reader->city(self::$user_ip);
+            self::$data_source = request_record($opts);
+            self::$record = $data_source->city(self::$user_ip);
         } catch (Exception $e) {
             self::$record = null;
         }
@@ -42,6 +41,20 @@ class GeoSwitch {
         add_shortcode('geoswitch_country_code', array( 'GeoSwitch', 'get_country_code' ));
         add_shortcode('geoswitch_latitude', array( 'GeoSwitch', 'get_latitude' ));
         add_shortcode('geoswitch_longitude', array( 'GeoSwitch', 'get_longitude' ));
+    }
+
+    public static function request_record($opts){
+        $data_source = (is_null($opts['source'])) ? 'local' : $opts['source'];
+        return ($data_source == 'remote') ? build_client($opts) : build_reader($opts);
+    }
+
+    public static function build_client($opts){
+        return new Client($opts['user_id'], $opts['license_key']);
+    }
+
+    public static function build_reader($opts){
+        $database = GEOSWITCH_PLUGIN_DIR . 'database/' . $opts['database_name'];
+        return new GeoIp2\Database\Reader($database);
     }
 
     public static function cache_locale($locale){
