@@ -21,6 +21,8 @@ class GeoSwitchAdmin {
     
     public static function admin_init() {    
         register_setting( 'geoswitch_options', 'geoswitch_options', array('GeoSwitchAdmin', 'validate') );
+        add_settings_section('geoswitch_main', 'Service Selector', array('GeoSwitchAdmin', 'selected_service_section_text'), 'geoswitch_options_selected_service_page');
+        add_settings_field('geoswitch_selected_service', 'Select Service', array('GeoSwitchAdmin', 'selected_service'), 'geoswitch_options_selected_service_page', 'geoswitch_main');
         add_settings_section('geoswitch_main', 'Local DataBase Settings', array('GeoSwitchAdmin', 'localDB_section_text'), 'geoswitch_options_localdb_page');
         add_settings_field('geoswitch_database_name', 'MaxMind Database Name', array('GeoSwitchAdmin', 'database_name'), 'geoswitch_options_localdb_page', 'geoswitch_main');
         add_settings_section('geoswitch_main', 'Web Service Settings', array('GeoSwitchAdmin', 'WebService_section_text'), 'geoswitch_options_webservice_page');
@@ -45,6 +47,7 @@ class GeoSwitchAdmin {
 <form method="post" action="options.php">
 <?php 
     settings_fields('geoswitch_options');
+    do_settings_sections('geoswitch_options_selected_service_page'); 
     do_settings_sections('geoswitch_options_localdb_page'); 
     do_settings_sections('geoswitch_options_webservice_page'); 
     do_settings_sections('geoswitch_options_measurement_page'); 
@@ -52,6 +55,9 @@ class GeoSwitchAdmin {
 <input name="Submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />
 </form>
 <?php
+    }
+
+    public static function selected_service_section_text() {
     }
 
     public static function LocalDB_section_text() {
@@ -62,7 +68,18 @@ class GeoSwitchAdmin {
 
     public static function Measurement_section_text() {
     }
+
+    public static function selected_service() {
+        $options = get_option('geoswitch_options');
     
+?>
+<select id='geoswitch_selected_service' name='geoswitch_options[selected_service]'>
+  <option value="LocalDB" <?=selected($options['selected_service'], 'LocalDB', false)?>>Local Database</option>
+  <option value="WebService" <?=selected($options['selected_service'], 'WebService', false)?>>Web Service</option>
+</select>
+
+<?php
+    }
     public static function database_name() {
         $options = get_option('geoswitch_options');
 ?>
@@ -115,6 +132,12 @@ class GeoSwitchAdmin {
             }
         } else {
             $newinput['database_name'] = 'GeoLite2-City.mmdb';
+        }
+        if (isset($input['selected_service'])) {
+            $newinput['selected_service'] = ($input['selected_service'] == 'LocalDB' ? 'LocalDB' : 'WebService');
+            
+        } else {
+            $newinput['units'] = 'LocalDB';
         }
             
         if (isset($input['units'])) {
