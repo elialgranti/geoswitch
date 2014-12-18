@@ -44,7 +44,7 @@ class GeoSwitch {
     }
 
     public static function request_record($opts){
-        $data_source = (is_null($opts['webservice'])) ? 'local_db' : $opts['data_source'];
+        $data_source = (is_null($opts['data_source'])) ? 'localdb' : $opts['data_source'];
         return ($data_source == 'webservice') ? build_client($opts) : build_reader($opts);
     }
 
@@ -55,11 +55,6 @@ class GeoSwitch {
     public static function build_reader($opts){
         $database = GEOSWITCH_PLUGIN_DIR . 'database/' . $opts['database_name'];
         return new GeoIp2\Database\Reader($database);
-    }
-
-    public static function cache_locale($locale){
-        $cookieValue = $_COOKIE['geoswitch_locale'];
-        setcookie("geoswitch_locale", $value, time()+3600);  /* expire in 1 hour */
     }
 
 	public static function switch_block($atts, $content) {
