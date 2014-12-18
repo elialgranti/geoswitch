@@ -21,13 +21,13 @@ class GeoSwitchAdmin {
     
     public static function admin_init() {    
         register_setting( 'geoswitch_options', 'geoswitch_options', array('GeoSwitchAdmin', 'validate') );
-        add_settings_section('geoswitch_main', 'Service Selector', array('GeoSwitchAdmin', 'selected_service_section_text'), 'geoswitch_options_selected_service_page');
-        add_settings_field('geoswitch_selected_service', 'Select Service', array('GeoSwitchAdmin', 'selected_service'), 'geoswitch_options_selected_service_page', 'geoswitch_main');
-        add_settings_section('geoswitch_main', 'Local DataBase Settings', array('GeoSwitchAdmin', 'localDB_section_text'), 'geoswitch_options_localdb_page');
+        add_settings_section('geoswitch_main', 'Service Selector', array('GeoSwitchAdmin', 'data_source_section_text'), 'geoswitch_options_data_source_page');
+        add_settings_field('geoswitch_data_source', 'Select Service', array('GeoSwitchAdmin', 'data_source'), 'geoswitch_options_data_source_page', 'geoswitch_main');
+        add_settings_section('geoswitch_main', 'Local DataBase Settings', array('GeoSwitchAdmin', 'localdb_section_text'), 'geoswitch_options_localdb_page');
         add_settings_field('geoswitch_database_name', 'MaxMind Database Name', array('GeoSwitchAdmin', 'database_name'), 'geoswitch_options_localdb_page', 'geoswitch_main');
-        add_settings_section('geoswitch_main', 'Web Service Settings', array('GeoSwitchAdmin', 'WebService_section_text'), 'geoswitch_options_webservice_page');
+        add_settings_section('geoswitch_main', 'Web Service Settings', array('GeoSwitchAdmin', 'webservice_section_text'), 'geoswitch_options_webservice_page');
         add_settings_field('geoswitch_service_user_name', 'User Name', array('GeoSwitchAdmin', 'service_user_name'), 'geoswitch_options_webservice_page', 'geoswitch_main');
-        add_settings_field('geoswitch_license_key', 'License key', array('GeoSwitchAdmin', 'license_key'), 'geoswitch_options_webservice_page', 'geoswitch_main');
+        add_settings_field('geoswitch_service_license_key', 'License key', array('GeoSwitchAdmin', 'service_license_key'), 'geoswitch_options_webservice_page', 'geoswitch_main');
         add_settings_section('geoswitch_main', 'Measurement Settings', array('GeoSwitchAdmin', 'Measurement_section_text'), 'geoswitch_options_measurement_page');
         add_settings_field('geoswitch_units', 'Distance Units', array('GeoSwitchAdmin', 'units'), 'geoswitch_options_measurement_page', 'geoswitch_main');
     }
@@ -46,7 +46,7 @@ class GeoSwitchAdmin {
 <form method="post" action="options.php">
 <?php 
     settings_fields('geoswitch_options');
-    do_settings_sections('geoswitch_options_selected_service_page'); 
+    do_settings_sections('geoswitch_options_data_source_page'); 
     do_settings_sections('geoswitch_options_localdb_page'); 
     do_settings_sections('geoswitch_options_webservice_page'); 
     do_settings_sections('geoswitch_options_measurement_page'); 
@@ -56,25 +56,25 @@ class GeoSwitchAdmin {
 <?php
     }
 
-    public static function selected_service_section_text() {
+    public static function data_source_section_text() {
     }
 
-    public static function LocalDB_section_text() {
+    public static function localdb_section_text() {
     }
 
-    public static function WebService_section_text() {
+    public static function webservice_section_text() {
     }
 
     public static function Measurement_section_text() {
     }
 
-    public static function selected_service() {
+    public static function data_source() {
         $options = get_option('geoswitch_options');
     
 ?>
-<select id='geoswitch_selected_service' name='geoswitch_options[selected_service]'>
-  <option value="LocalDB" <?=selected($options['selected_service'], 'LocalDB', false)?>>Local Database</option>
-  <option value="WebService" <?=selected($options['selected_service'], 'WebService', false)?>>Web Service</option>
+<select id='geoswitch_data_source' name='geoswitch_options[data_source]'>
+  <option value="localdb" <?=selected($options['data_source'], 'localdb', false)?>>Local Database</option>
+  <option value="webservice" <?=selected($options['data_source'], 'webservice', false)?>>Web Service</option>
 </select>
 
 <?php
@@ -96,10 +96,10 @@ class GeoSwitchAdmin {
 <?php
     }
 
-    public static function license_key() {
+    public static function service_license_key() {
         $options = get_option('geoswitch_options');
 ?>
-<input id='geoswitch_license_key', name='geoswitch_options[license_key'] size='64' type='text' value='<?= $options['license_key']?>' />
+<input id='geoswitch_service_license_key', name='geoswitch_options[service_license_key'] size='64' type='text' value='<?= $options['service_license_key']?>' />
 
 
 <?php
@@ -125,11 +125,11 @@ class GeoSwitchAdmin {
         } else {
             $newinput['database_name'] = 'GeoLite2-City.mmdb';
         }
-        if (isset($input['selected_service'])) {
-            $newinput['selected_service'] = ($input['selected_service'] == 'LocalDB' ? 'LocalDB' : 'WebService');
+        if (isset($input['data_source'])) {
+            $newinput['data_source'] = ($input['data_source'] == 'localdb' ? 'localdb' : 'webservice');
             
         } else {
-            $newinput['units'] = 'LocalDB';
+            $newinput['units'] = 'localdb';
         }
             
         if (isset($input['units'])) {
@@ -143,11 +143,11 @@ class GeoSwitchAdmin {
         }else {
             $newinput['service_user_name'] = '****';
         }
-        if (isset($input['license_key'])){
-            $newinput['license_key'] = $input['license_key'];
+        if (isset($input['service_license_key'])){
+            $newinput['service_license_key'] = $input['service_license_key'];
         }
         else{
-            $newinput['license_key'] = '****';
+            $newinput['service_license_key'] = '****';
         }
         return $newinput;
     }
