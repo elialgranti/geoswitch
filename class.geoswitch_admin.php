@@ -26,7 +26,7 @@ class GeoSwitchAdmin {
         add_settings_section('geoswitch_main', 'Local DataBase Settings', array('GeoSwitchAdmin', 'localdb_section_text'), 'geoswitch_options_localdb_page');
         add_settings_field('geoswitch_database_name', 'MaxMind Database Name', array('GeoSwitchAdmin', 'database_name'), 'geoswitch_options_localdb_page', 'geoswitch_main');
         add_settings_section('geoswitch_main', 'Web Service Settings', array('GeoSwitchAdmin', 'webservice_section_text'), 'geoswitch_options_webservice_page');
-        add_settings_field('geoswitch_service_user_name', 'User Name', array('GeoSwitchAdmin', 'service_user_name'), 'geoswitch_options_webservice_page', 'geoswitch_main');
+        add_settings_field('geoswitch_service_user_name', 'User ID', array('GeoSwitchAdmin', 'service_user_name'), 'geoswitch_options_webservice_page', 'geoswitch_main');
         add_settings_field('geoswitch_service_license_key', 'License key', array('GeoSwitchAdmin', 'service_license_key'), 'geoswitch_options_webservice_page', 'geoswitch_main');
         add_settings_section('geoswitch_main', 'Measurement Settings', array('GeoSwitchAdmin', 'Measurement_section_text'), 'geoswitch_options_measurement_page');
         add_settings_field('geoswitch_units', 'Distance Units', array('GeoSwitchAdmin', 'units'), 'geoswitch_options_measurement_page', 'geoswitch_main');
