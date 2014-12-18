@@ -44,12 +44,12 @@ class GeoSwitch {
     }
 
     public static function request_record($opts){
-        $data_source = (is_null($opts['source'])) ? 'local' : $opts['source'];
-        return ($data_source == 'remote') ? build_client($opts) : build_reader($opts);
+        $data_source = (is_null($opts['webservice'])) ? 'local_db' : $opts['data_source'];
+        return ($data_source == 'webservice') ? build_client($opts) : build_reader($opts);
     }
 
     public static function build_client($opts){
-        return new Client($opts['user_id'], $opts['license_key']);
+        return new GeoIp2\WebService\Client($opts['service_user_name'], $opts['service_license_key']);
     }
 
     public static function build_reader($opts){
