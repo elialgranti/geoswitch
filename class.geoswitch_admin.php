@@ -21,11 +21,14 @@ class GeoSwitchAdmin {
     
     public static function admin_init() {    
         register_setting( 'geoswitch_options', 'geoswitch_options', array('GeoSwitchAdmin', 'validate') );
-        add_settings_section('geoswitch_main', 'General Settings', array('GeoSwitchAdmin', 'main_section_text'), 'geoswitch_options_main_page');
-        add_settings_field('geoswitch_database_name', 'MaxMind Database Name', array('GeoSwitchAdmin', 'database_name'), 'geoswitch_options_main_page', 'geoswitch_main');
-        add_settings_field('geoswitch_service_user_name', 'User Name', array('GeoSwitchAdmin', 'service_user_name'), 'geoswitch_options_main_page', 'geoswitch_main');
-        add_settings_field('geoswitch_service_user_password', 'Password', array('GeoSwitchAdmin', 'service_user_password'), 'geoswitch_options_main_page', 'geoswitch_main');
-        add_settings_field('geoswitch_units', 'Distance Units', array('GeoSwitchAdmin', 'units'), 'geoswitch_options_main_page', 'geoswitch_main');
+        add_settings_section('geoswitch_main', 'Local DataBase Settings', array('GeoSwitchAdmin', 'localDB_section_text'), 'geoswitch_options_localdb_page');
+        add_settings_field('geoswitch_database_name', 'MaxMind Database Name', array('GeoSwitchAdmin', 'database_name'), 'geoswitch_options_localdb_page', 'geoswitch_main');
+        add_settings_section('geoswitch_main', 'Web Service Settings', array('GeoSwitchAdmin', 'WebService_section_text'), 'geoswitch_options_webservice_page');
+        add_settings_field('geoswitch_service_user_name', 'User Name', array('GeoSwitchAdmin', 'service_user_name'), 'geoswitch_options_webservice_page', 'geoswitch_main');
+        add_settings_field('geoswitch_service_user_password', 'Password', array('GeoSwitchAdmin', 'service_user_password'), 'geoswitch_options_webservice_page', 'geoswitch_main');
+        add_settings_field('geoswitch_license_key', 'License key', array('GeoSwitchAdmin', 'license_key'), 'geoswitch_options_webservice_page', 'geoswitch_main');
+        add_settings_section('geoswitch_main', 'Measurement Settings', array('GeoSwitchAdmin', 'Measurement_section_text'), 'geoswitch_options_measurement_page');
+        add_settings_field('geoswitch_units', 'Distance Units', array('GeoSwitchAdmin', 'units'), 'geoswitch_options_measurement_page', 'geoswitch_main');
     }
 
     public static function add_menu() {
@@ -42,14 +45,22 @@ class GeoSwitchAdmin {
 <form method="post" action="options.php">
 <?php 
     settings_fields('geoswitch_options');
-    do_settings_sections('geoswitch_options_main_page'); 
+    do_settings_sections('geoswitch_options_localdb_page'); 
+    do_settings_sections('geoswitch_options_webservice_page'); 
+    do_settings_sections('geoswitch_options_measurement_page'); 
 ?>
 <input name="Submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />
 </form>
 <?php
     }
 
-    public static function main_section_text() {
+    public static function LocalDB_section_text() {
+    }
+
+    public static function WebService_section_text() {
+    }
+
+    public static function Measurement_section_text() {
     }
     
     public static function database_name() {
@@ -72,6 +83,14 @@ class GeoSwitchAdmin {
         $options = get_option('geoswitch_options');
 ?>
 <input id='geoswitch_service_user_name', name='geoswitch_options[service_user_password'] size='64' type='text' value='<?= $options['service_user_password']?>' />
+
+<?php
+    }
+
+    public static function license_key() {
+        $options = get_option('geoswitch_options');
+?>
+<input id='geoswitch_license_key', name='geoswitch_options[license_key'] size='64' type='text' value='<?= $options['license_key']?>' />
 
 
 <?php
@@ -109,10 +128,16 @@ class GeoSwitchAdmin {
         }else {
             $newinput['service_user_name'] = '';
         }
-         if (isset($input['service_user_password'])){
+        if (isset($input['service_user_password'])){
             $newinput['service_user_password'] = trim($input['service_user_password']);
         }else {
             $newinput['service_user_password'] = '';
+        }
+        if (isset($input['license_key'])){
+            $newinput['license_key'] = $input['license_key'];
+        }
+        else{
+            $newinput['license_key'] = '';
         }
         return $newinput;
     }
