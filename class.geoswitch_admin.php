@@ -141,13 +141,13 @@ class GeoSwitchAdmin {
         if (isset($input['service_user_name'])){
             $newinput['service_user_name'] = trim($input['service_user_name']);
         }else {
-            $newinput['service_user_name'] = '****';
+            $newinput['service_user_name'] = '';
         }
         if (isset($input['service_license_key'])){
             $newinput['service_license_key'] = $input['service_license_key'];
         }
         else{
-            $newinput['service_license_key'] = '****';
+            $newinput['service_license_key'] = '';
         }
         return $newinput;
     }
