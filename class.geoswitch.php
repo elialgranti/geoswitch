@@ -24,8 +24,8 @@ class GeoSwitch {
         try {
             $opt = get_option('geoswitch_options');
             $useKM = ($opt['units'] == 'km');
-            self::$data_source = request_record($opts);
-            self::$record = $data_source->city(self::$user_ip);
+            self::$data_source = self::request_record($opts);
+            self::$record = self::$data_source->city(self::$user_ip);
         } catch (Exception $e) {
             self::$record = null;
         }
@@ -45,7 +45,7 @@ class GeoSwitch {
 
     public static function request_record($opts){
         $data_source = (is_null($opts['data_source'])) ? 'localdb' : $opts['data_source'];
-        return ($data_source == 'webservice') ? build_client($opts) : build_reader($opts);
+        return ($data_source == 'webservice') ? self::build_client($opts) : self::build_reader($opts);
     }
 
     public static function build_client($opts){
