@@ -27,7 +27,6 @@ class GeoSwitchAdmin {
         add_settings_field('geoswitch_database_name', 'MaxMind Database Name', array('GeoSwitchAdmin', 'database_name'), 'geoswitch_options_localdb_page', 'geoswitch_main');
         add_settings_section('geoswitch_main', 'Web Service Settings', array('GeoSwitchAdmin', 'WebService_section_text'), 'geoswitch_options_webservice_page');
         add_settings_field('geoswitch_service_user_name', 'User Name', array('GeoSwitchAdmin', 'service_user_name'), 'geoswitch_options_webservice_page', 'geoswitch_main');
-        add_settings_field('geoswitch_service_user_password', 'Password', array('GeoSwitchAdmin', 'service_user_password'), 'geoswitch_options_webservice_page', 'geoswitch_main');
         add_settings_field('geoswitch_license_key', 'License key', array('GeoSwitchAdmin', 'license_key'), 'geoswitch_options_webservice_page', 'geoswitch_main');
         add_settings_section('geoswitch_main', 'Measurement Settings', array('GeoSwitchAdmin', 'Measurement_section_text'), 'geoswitch_options_measurement_page');
         add_settings_field('geoswitch_units', 'Distance Units', array('GeoSwitchAdmin', 'units'), 'geoswitch_options_measurement_page', 'geoswitch_main');
@@ -93,13 +92,6 @@ class GeoSwitchAdmin {
 ?>
 <input id='geoswitch_service_user_name', name='geoswitch_options[service_user_name'] size='64' type='text' value='<?= $options['service_user_name']?>' />
 
-<?php
-    }
-
-    public static function service_user_password() {
-        $options = get_option('geoswitch_options');
-?>
-<input id='geoswitch_service_user_name', name='geoswitch_options[service_user_password'] size='64' type='text' value='<?= $options['service_user_password']?>' />
 
 <?php
     }
@@ -149,18 +141,13 @@ class GeoSwitchAdmin {
         if (isset($input['service_user_name'])){
             $newinput['service_user_name'] = trim($input['service_user_name']);
         }else {
-            $newinput['service_user_name'] = '';
-        }
-        if (isset($input['service_user_password'])){
-            $newinput['service_user_password'] = trim($input['service_user_password']);
-        }else {
-            $newinput['service_user_password'] = '';
+            $newinput['service_user_name'] = '****';
         }
         if (isset($input['license_key'])){
             $newinput['license_key'] = $input['license_key'];
         }
         else{
-            $newinput['license_key'] = '';
+            $newinput['license_key'] = '****';
         }
         return $newinput;
     }
