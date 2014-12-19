@@ -24,7 +24,7 @@ class GeoSwitch {
         try {
             $opt = get_option('geoswitch_options');
             $useKM = ($opt['units'] == 'km');
-            self::$data_source = self::request_record($opts);
+            self::$data_source = self::request_record($opt);
             self::$record = self::$data_source->city(self::$user_ip);
         } catch (Exception $e) {
             self::$record = null;
