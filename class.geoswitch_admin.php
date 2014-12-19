@@ -90,7 +90,7 @@ class GeoSwitchAdmin {
     public static function service_user_name() {
         $options = get_option('geoswitch_options');
 ?>
-<input id='geoswitch_service_user_name', name='geoswitch_options[service_user_name'] size='64' type='text' value='<?= $options['service_user_name']?>' />
+<input id='geoswitch_service_user_name', name='geoswitch_options[service_user_name]' size='64' type='text' value='<?= $options['service_user_name']?>' />
 
 
 <?php
@@ -99,7 +99,7 @@ class GeoSwitchAdmin {
     public static function service_license_key() {
         $options = get_option('geoswitch_options');
 ?>
-<input id='geoswitch_service_license_key', name='geoswitch_options[service_license_key'] size='64' type='text' value='<?= $options['service_license_key']?>' />
+<input id='geoswitch_service_license_key', name='geoswitch_options[service_license_key]' size='64' type='text' value='<?= $options['service_license_key']?>' />
 
 
 <?php
@@ -127,27 +127,22 @@ class GeoSwitchAdmin {
         }
         if (isset($input['data_source'])) {
             $newinput['data_source'] = ($input['data_source'] == 'localdb' ? 'localdb' : 'webservice');
-            
+
         } else {
             $newinput['units'] = 'localdb';
         }
-            
+
         if (isset($input['units'])) {
             $newinput['units'] = ($input['units'] == 'm' ? 'm' : 'km');
-            
+
         } else {
             $newinput['units'] = 'km';
         }
         if (isset($input['service_user_name'])){
             $newinput['service_user_name'] = trim($input['service_user_name']);
-        }else {
-            $newinput['service_user_name'] = '';
         }
         if (isset($input['service_license_key'])){
             $newinput['service_license_key'] = $input['service_license_key'];
-        }
-        else{
-            $newinput['service_license_key'] = '';
         }
         return $newinput;
     }
