@@ -19,8 +19,8 @@ class GeoSwitchAdmin {
     
     public static function admin_init() {    
         register_setting( 'geoswitch_options', 'geoswitch_options', array('GeoSwitchAdmin', 'validate') );
-        add_settings_section('geoswitch_main', 'Service Selector', array('GeoSwitchAdmin', 'data_source_section_text'), 'geoswitch_options_data_source_page');
-        add_settings_field('geoswitch_data_source', 'Select Service', array('GeoSwitchAdmin', 'data_source'), 'geoswitch_options_data_source_page', 'geoswitch_main');
+        add_settings_section('geoswitch_main', 'Geolocation Service Settings', array('GeoSwitchAdmin', 'data_source_section_text'), 'geoswitch_options_data_source_page');
+        add_settings_field('geoswitch_data_source', 'Select Geolocation Service', array('GeoSwitchAdmin', 'data_source'), 'geoswitch_options_data_source_page', 'geoswitch_main');
         add_settings_section('geoswitch_main', 'Local DataBase Settings', array('GeoSwitchAdmin', 'localdb_section_text'), 'geoswitch_options_localdb_page');
         add_settings_field('geoswitch_database_name', 'MaxMind Database Name', array('GeoSwitchAdmin', 'database_name'), 'geoswitch_options_localdb_page', 'geoswitch_main');
         add_settings_section('geoswitch_main', 'Web Service Settings', array('GeoSwitchAdmin', 'webservice_section_text'), 'geoswitch_options_webservice_page');
@@ -71,7 +71,7 @@ class GeoSwitchAdmin {
 ?>
 <select id='geoswitch_data_source' name='geoswitch_options[data_source]'>
   <option value="localdb" <?=selected($options['data_source'], 'localdb', false)?>>Local Database</option>
-  <option value="webservice" <?=selected($options['data_source'], 'webservice', false)?>>Web Service</option>
+  <option value="webservice" <?=selected($options['data_source'], 'webservice', false)?>>GeoIP2 Precision Service</option>
 </select>
 
 <?php
