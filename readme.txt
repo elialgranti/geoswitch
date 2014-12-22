@@ -2,9 +2,9 @@
 Contributors: elialgranti
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=C7QAD2M3L5T6E
 Tags: geocode, geocode switch, geocode filter, geotag, geomarketing, geomarking, geolocation, geofilter, location, local marketing, GeoIP2, MaxMind
-Version: 1.0.0
+Version: 1.1.0
 Requires at least: 3.0
-Tested up to: 4.0.1
+Tested up to: 4.1.0
 Stable tag: 1.0.0
 License: GPLv2 or later for plugin code, Apache License version 2.0 for Maxmind library under vendor directory
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -13,8 +13,10 @@ GeoSwitch is a plugin that allows you to change the content of your site based o
 
 == Description ==
 GeoSwitch is a plugin that allows you to change the content of your site based on the location of your client’s IP.
-GeoSwitch uses the new the new GeoIP2 [MaxMind](https://www.maxmind.com) databases to geolocate users based on IP.
-MaxMind offers free and paid geolocation databases, the author of this plugin is not affiliated with MaxMind in any way.
+To geolocate users based on IP GeoSwitch supports can user either the new the new GeoIP2 [MaxMind](https://www.maxmind.com) 
+databases or GeoIP2 Precision Service.
+MaxMind offers free and paid geolocation databases and the paid GeoIP2 Precision web service, 
+the author of this plugin is not affiliated with MaxMind in any way.
 
 The main development of this plugin is in [github](https://github.com/elialgranti/geoswitch). 
 Please open a new [issue](https://github.com/elialgranti/geoswitch/issues) if you find a bug in this plugin.
@@ -24,16 +26,23 @@ Apache License version 2.0**
 
 == Installation ==
 = Prerequisites =
-The Geoswitch plugin uses MaxMind’s city database you’ll need either the free GeoLite2 city database 
-(download from [here](http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz)) or obtain a license from MaxMind 
-for a GeoIP2 citydatabase.
-After obtaining the database uncompress it before installation.
+The Geoswitch plugin uses either MaxMind’s city database or webservice.
 
+* To use a local database for geocoding you’ll need either the free GeoLite2 city database 
+(download from [here](http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz)) or obtain a license from MaxMind 
+for a GeoIP2 citydatabase. After obtaining the database uncompress it before installation.
+* To use the webservice you'll need to obtain a user ID and license key for [GeoIP2 Precision Services](https://www.maxmind.com/en/geoip2-precision-services).
+
+= Installation =
 1. Copy the Plugin directory to your wordpress plugins directory (usually wp-content/plugins)
-2. Copy your MaxMind binary database to the database subdirectory inside the plugin root direcory (GeoSwitch/database). 
+2. Optionally copy your MaxMind binary database to the database subdirectory inside the plugin root direcory (GeoSwitch/database). 
    The database should be uncompressed.
-3. In the Wordpress administration settings search for the GeoSwitch configuration page and set the name of the database 
-   and the units to use for distance calculations (kilometer or miles).
+3. In the Wordpress administration settings search for the GeoSwitch configuration page:
+* Select the type of geocoding service to use (local database or webservice). 
+* Enter the name of the database or the user ID and license key depending on the service you've selected.
+* Set the units to use for distance calculations (kilometer or miles).
+
+*Note: if you use the local database you should update it periodically.*
 
 == Usage ==
 = GeoSwitch Conditional Blocks =
@@ -101,8 +110,15 @@ In addition to the conditional block GeoSwitch offers the following shortcodes t
 
 = 1.0.0 =
 * Initial release
+= 1.1.0 =
+* Added support for MaxMind GeoIP2 Precision Service (thanks to [Paul Scarrone](https://github.com/ninjapanzer) 
+and [carlcapozza](https://github.com/carlcapozza)).
+* Fixed bug with measurement units. Units were always considered kilometers.
+* Tested under Wordpress 4.1.
 
 == Upgrade Notice ==
+= 1.1.0 =
+Added support for MaxMind GeoIP2 Precision Service and fixed bug with measurement units.
 
 == Frequently Asked Questions ==
 
