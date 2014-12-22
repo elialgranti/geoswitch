@@ -7,8 +7,6 @@ if ( ! defined( 'GEOSWITCH_PLUGIN_DIR' ) )
 
 class GeoSwitchAdmin {
     private static $initialized = false;
-    private static $user_ip = null;
-    private static $record = null;
     
     public static function init() {
         if (self::$initialized) {
@@ -28,7 +26,7 @@ class GeoSwitchAdmin {
         add_settings_section('geoswitch_main', 'Web Service Settings', array('GeoSwitchAdmin', 'webservice_section_text'), 'geoswitch_options_webservice_page');
         add_settings_field('geoswitch_service_user_name', 'User ID', array('GeoSwitchAdmin', 'service_user_name'), 'geoswitch_options_webservice_page', 'geoswitch_main');
         add_settings_field('geoswitch_service_license_key', 'License key', array('GeoSwitchAdmin', 'service_license_key'), 'geoswitch_options_webservice_page', 'geoswitch_main');
-        add_settings_section('geoswitch_main', 'Measurement Settings', array('GeoSwitchAdmin', 'Measurement_section_text'), 'geoswitch_options_measurement_page');
+        add_settings_section('geoswitch_main', 'Measurement Settings', array('GeoSwitchAdmin', 'measurement_section_text'), 'geoswitch_options_measurement_page');
         add_settings_field('geoswitch_units', 'Distance Units', array('GeoSwitchAdmin', 'units'), 'geoswitch_options_measurement_page', 'geoswitch_main');
     }
 
@@ -65,12 +63,11 @@ class GeoSwitchAdmin {
     public static function webservice_section_text() {
     }
 
-    public static function Measurement_section_text() {
+    public static function measurement_section_text() {
     }
 
     public static function data_source() {
-        $options = get_option('geoswitch_options');
-    
+        $options =  GeoSwitch::get_options();
 ?>
 <select id='geoswitch_data_source' name='geoswitch_options[data_source]'>
   <option value="localdb" <?=selected($options['data_source'], 'localdb', false)?>>Local Database</option>
@@ -80,7 +77,8 @@ class GeoSwitchAdmin {
 <?php
     }
     public static function database_name() {
-        $options = get_option('geoswitch_options');
+        $options =  GeoSwitch::get_options();
+        
 ?>
 <input id='geoswitch_database_name' name='geoswitch_options[database_name]' size='64' type='text' value='<?= $options['database_name']?>' />
 
@@ -88,7 +86,7 @@ class GeoSwitchAdmin {
     }
 
     public static function service_user_name() {
-        $options = get_option('geoswitch_options');
+        $options =  GeoSwitch::get_options();
 ?>
 <input id='geoswitch_service_user_name', name='geoswitch_options[service_user_name]' size='64' type='text' value='<?= $options['service_user_name']?>' />
 
@@ -97,7 +95,7 @@ class GeoSwitchAdmin {
     }
 
     public static function service_license_key() {
-        $options = get_option('geoswitch_options');
+        $options =  GeoSwitch::get_options();
 ?>
 <input id='geoswitch_service_license_key', name='geoswitch_options[service_license_key]' size='64' type='text' value='<?= $options['service_license_key']?>' />
 
@@ -106,7 +104,7 @@ class GeoSwitchAdmin {
     }
 
     public static function units() {
-        $options = get_option('geoswitch_options');
+        $options =  GeoSwitch::get_options();
 ?>
 <select id='geoswitch_units' name='geoswitch_options[units]'>
   <option value="km" <?=selected($options['units'], 'km', false)?>>Kilometers</option>
@@ -127,7 +125,6 @@ class GeoSwitchAdmin {
         }
         if (isset($input['data_source'])) {
             $newinput['data_source'] = ($input['data_source'] == 'localdb' ? 'localdb' : 'webservice');
-
         } else {
             $newinput['units'] = 'localdb';
         }
@@ -142,7 +139,7 @@ class GeoSwitchAdmin {
             $newinput['service_user_name'] = trim($input['service_user_name']);
         }
         if (isset($input['service_license_key'])){
-            $newinput['service_license_key'] = $input['service_license_key'];
+            $newinput['service_license_key'] = trim($input['service_license_key']);
         }
         return $newinput;
     }

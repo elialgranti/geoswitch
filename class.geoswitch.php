@@ -22,8 +22,9 @@ class GeoSwitch {
         self::$user_ip = self::get_user_ip();
 
         try {
-            $opt = get_option('geoswitch_options');
-            $useKM = ($opt['units'] == 'km');
+            $opt = self::get_options();
+
+            self::$useKm = ($opt['units'] == 'km');
             self::$data_source = self::request_record($opt);
             self::$record = self::$data_source->city(self::$user_ip);
         } catch (Exception $e) {
@@ -43,12 +44,11 @@ class GeoSwitch {
         add_shortcode('geoswitch_longitude', array( 'GeoSwitch', 'get_longitude' ));
     }
 
-    public static function request_record($opts){
-        $data_source = (is_null($opts['data_source'])) ? 'localdb' : $opts['data_source'];
-        return ($data_source == 'webservice') ? self::build_client($opts) : self::build_reader($opts);
+    public static function request_record($opts) {
+        return ($opts['data_source'] == 'localdb') ? self::build_reader($opts) : self::build_client($opts);
     }
 
-    public static function build_client($opts){
+    public static function build_client($opts) {
         return new GeoIp2\WebService\Client($opts['service_user_name'], $opts['service_license_key']);
     }
 
@@ -156,7 +156,10 @@ class GeoSwitch {
     public static function activation() {
         $default_options=array(
             'database_name'=>'GeoLite2-City.mmdb',
-            'units'=>'km'
+            'units'=>'km',
+            'data_source'=>'localdb',
+            'service_user_name'=>'',
+            'service_license_key'=>''
          );
         add_option('geoswitch_options',$default_options);
     }
@@ -164,6 +167,21 @@ class GeoSwitch {
     public static function deactivation() {
         unregister_setting('geoswitch_options', 'geoswitch_options');
         delete_option('geoswitch_options');
+    }
+
+    public static function get_options() {
+        $opt = get_option('geoswitch_options');
+        if (!array_key_exists('database_name', $opt))
+            $opt['database_name']='GeoLite2-City.mmdb';
+        if (!array_key_exists('units', $opt))
+            $opt['units']='km';
+        if (!array_key_exists('data_source', $opt))
+            $opt['data_source']='localdb';
+        if (!array_key_exists('service_user_name', $opt))
+            $opt['service_user_name']='';
+        if (!array_key_exists('service_license_key', $opt))
+            $opt['service_license_key']='';
+        return $opt;
     }
 
     private static function within($within, $from) {
