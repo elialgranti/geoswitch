@@ -1,10 +1,10 @@
 <?php
 /*
 Plugin Name: GeoSwitch
-Plugin URI: 
-Tags: geocode, geocode switch, geocode filter, geotag, geomarketing, geomarking, geolocation, geofilter, location, local marketing
-Description: 
-Version: 1.0.0
+Plugin URI: https://wordpress.org/plugins/geoswitch/
+Tags: geocode, geocode switch, geocode filter, geotag, geomarketing, geomarking, geolocation, geofilter, location, local marketing, GeoIP2, MaxMind
+Description: GeoSwitch is a plugin that allows you to change the content of your site based on the location of your client’s IP.
+Version: 1.1.0
 Author: elialgranti
 */
 
