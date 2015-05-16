@@ -24,6 +24,7 @@ local.properties
 .cproject
 .buildpath
 nbproject/
+composer.phar
 
 ############
 ## OSes

@@ -19,21 +19,23 @@ class GeoSwitch {
         }
         self::$initialized = true;
 
-        self::$user_ip = self::get_user_ip();
-
+        self::$user_ip = "66.249.65.129";//self::get_user_ip();
+		
         try {
             $opt = self::get_options();
 
             self::$useKm = ($opt['units'] == 'km');
             self::$data_source = self::request_record($opt);
-            self::$record = self::$data_source->city(self::$user_ip);
+            self::$record = self::get_record();
         } catch (Exception $e) {
+			error_log($e);
+			self::$data_source = null;
             self::$record = null;
         }
 
         add_shortcode('geoswitch', array( 'GeoSwitch', 'switch_block' ));
         add_shortcode('geoswitch_case', array( 'GeoSwitch', 'switch_case' ));
-
+		
         add_shortcode('geoswitch_ip', array( 'GeoSwitch', 'get_ip' ));
         add_shortcode('geoswitch_city', array( 'GeoSwitch', 'get_city' ));
         add_shortcode('geoswitch_state', array( 'GeoSwitch', 'get_state' ));
@@ -42,6 +44,9 @@ class GeoSwitch {
         add_shortcode('geoswitch_country_code', array( 'GeoSwitch', 'get_country_code' ));
         add_shortcode('geoswitch_latitude', array( 'GeoSwitch', 'get_latitude' ));
         add_shortcode('geoswitch_longitude', array( 'GeoSwitch', 'get_longitude' ));
+		
+		// debug options
+		add_shortcode('geoswitch_set_ip', array( 'GeoSwitch', 'set_ip' ));
     }
 
     public static function request_record($opts) {
@@ -68,7 +73,7 @@ class GeoSwitch {
 
 	public static function switch_case($atts, $content) {
         $expandedContent = do_shortcode($content);
-
+		
         if (is_null(self::$record)) {
             if (!empty($atts['city']) ||
                 !empty($atts['state']) ||
@@ -81,7 +86,6 @@ class GeoSwitch {
             }
             return '#'.strlen($expandedContent).'#'.$expandedContent;
         }
-
 
         if ((empty($atts['city']) || strcasecmp($atts['city'], self::$record->city->name) == 0)
             &&
@@ -152,6 +156,10 @@ class GeoSwitch {
         return self::$record->location->longitude;
     }
 
+	public static function set_ip($atts, $content) {
+		self::$user_ip = $atts['ip'];
+		self::$record = self::get_record();
+	}
 
     public static function activation() {
         $default_options=array(
@@ -204,6 +212,12 @@ class GeoSwitch {
         return self::$useKm ? ($km <= $within) : (($km * 0.621371192) <= $within);
     }
 
+	private static function get_record() {
+		if (is_null(self::$data_source))
+			return null;
+		return self::$data_source->city(self::$user_ip);
+	}
+	
     private static function get_user_ip() {
         if ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
             //check ip from share internet

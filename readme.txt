@@ -2,10 +2,10 @@
 Contributors: elialgranti
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=C7QAD2M3L5T6E
 Tags: geocode, geocode switch, geocode filter, geotag, geomarketing, geomarking, geolocation, geofilter, location, local marketing, GeoIP2, MaxMind
-Version: 1.1.0
+Version: 1.1.1
 Requires at least: 3.0
-Tested up to: 4.1.0
-Stable tag: 1.1.0
+Tested up to: 4.2.1
+Stable tag: 1.1.1
 License: GPLv2 or later for plugin code, Apache License version 2.0 for Maxmind library under vendor directory
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,9 +55,9 @@ on the user’s IP location:
 
 `
 [geoswitch]
-[geoswitch_case country_code=”AU” state_code=”NSW”]New South Wales Office[/geoswitch_case ]
-[geoswitch_case country_code=”AU”]Australian Office[/geoswitch_case ]
-[geoswitch_case]International Office[/geoswitch_case ]
+[geoswitch_case country_code="AU" state_code="NSW"]New South Wales Office[/geoswitch_case]
+[geoswitch_case country_code="AU"]Australian Office[/geoswitch_case]
+[geoswitch_case]International Office[/geoswitch_case]
 [/geoswitch]
 `
 
@@ -78,11 +78,11 @@ The `[geoswitch_case]` shortcode matches only the attributes specified so:
 
 `
 [geoswitch]
-[geoswitch_case city=”paris”]You are in Paris![/geoswitch_case]
+[geoswitch_case city="paris"]You are in Paris![/geoswitch_case]
 [/geoswitch]
 `
 
-Will display “You are in Paris!” to any user with an IP location in a city named Paris, e.g Paris, France or Paris, Texas, USA.
+Will display "You are in Paris!" to any user with an IP location in a city named Paris, e.g Paris, France or Paris, Texas, USA.
 A `[geoswitch_case]` shortcode without any attributes always matches and can be used as the last condition in a conditional block 
 to show default content.
 Content between [geoswitch_case] blocks can contain any markup including any other shortcodes,  but conditional blocks should 
@@ -99,6 +99,7 @@ Content between the [geoswitch] and [geoswitch_case] shortcodes should be whites
 = Informational Shortcodes =
 
 In addition to the conditional block GeoSwitch offers the following shortcodes to display user information:
+
 * `[geoswitch_ip]` - The user’s IP.
 * `[geoswitch_city]` - The user’s city name.
 * `[geoswitch_state]` - The user’s state name.
