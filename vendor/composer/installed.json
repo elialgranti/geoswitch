@@ -1,17 +1,17 @@
 [
     {
         "name": "maxmind-db/reader",
-        "version": "v1.0.0",
-        "version_normalized": "1.0.0.0",
+        "version": "v1.0.3",
+        "version_normalized": "1.0.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/maxmind/MaxMind-DB-Reader-php.git",
-            "reference": "cbd695a5309c15249ef5944997cfb71f2a8a7963"
+            "reference": "07f211ab596ba60f9663d9984b888f76ee1beac9"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/maxmind/MaxMind-DB-Reader-php/zipball/cbd695a5309c15249ef5944997cfb71f2a8a7963",
-            "reference": "cbd695a5309c15249ef5944997cfb71f2a8a7963",
+            "url": "https://api.github.com/repos/maxmind/MaxMind-DB-Reader-php/zipball/07f211ab596ba60f9663d9984b888f76ee1beac9",
+            "reference": "07f211ab596ba60f9663d9984b888f76ee1beac9",
             "shasum": ""
         },
         "require": {
@@ -21,7 +21,7 @@
             "phpunit/phpunit": "4.2.*",
             "satooshi/php-coveralls": "dev-master"
         },
-        "time": "2014-09-22 17:33:22",
+        "time": "2015-03-13 22:35:13",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -52,18 +52,18 @@
     },
     {
         "name": "symfony/event-dispatcher",
-        "version": "v2.5.5",
-        "version_normalized": "2.5.5.0",
+        "version": "v2.6.7",
+        "version_normalized": "2.6.7.0",
         "target-dir": "Symfony/Component/EventDispatcher",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/EventDispatcher.git",
-            "reference": "f6281337bf5f985f585d1db6a83adb05ce531f46"
+            "reference": "672593bc4b0043a0acf91903bb75a1c82d8f2e02"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/f6281337bf5f985f585d1db6a83adb05ce531f46",
-            "reference": "f6281337bf5f985f585d1db6a83adb05ce531f46",
+            "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/672593bc4b0043a0acf91903bb75a1c82d8f2e02",
+            "reference": "672593bc4b0043a0acf91903bb75a1c82d8f2e02",
             "shasum": ""
         },
         "require": {
@@ -71,19 +71,21 @@
         },
         "require-dev": {
             "psr/log": "~1.0",
-            "symfony/config": "~2.0",
-            "symfony/dependency-injection": "~2.0,<2.6.0",
-            "symfony/stopwatch": "~2.2"
+            "symfony/config": "~2.0,>=2.0.5",
+            "symfony/dependency-injection": "~2.6",
+            "symfony/expression-language": "~2.6",
+            "symfony/phpunit-bridge": "~2.7",
+            "symfony/stopwatch": "~2.3"
         },
         "suggest": {
             "symfony/dependency-injection": "",
             "symfony/http-kernel": ""
         },
-        "time": "2014-09-28 15:56:11",
+        "time": "2015-05-02 15:18:45",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.5-dev"
+                "dev-master": "2.6-dev"
             }
         },
         "installation-source": "dist",
@@ -98,30 +100,30 @@
         ],
         "authors": [
             {
-                "name": "Symfony Community",
-                "homepage": "http://symfony.com/contributors"
-            },
-            {
                 "name": "Fabien Potencier",
                 "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
             }
         ],
         "description": "Symfony EventDispatcher Component",
-        "homepage": "http://symfony.com"
+        "homepage": "https://symfony.com"
     },
     {
         "name": "guzzle/guzzle",
-        "version": "v3.9.2",
-        "version_normalized": "3.9.2.0",
+        "version": "v3.9.3",
+        "version_normalized": "3.9.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/guzzle/guzzle3.git",
-            "reference": "54991459675c1a2924122afbb0e5609ade581155"
+            "reference": "0645b70d953bc1c067bbc8d5bc53194706b628d9"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/54991459675c1a2924122afbb0e5609ade581155",
-            "reference": "54991459675c1a2924122afbb0e5609ade581155",
+            "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/0645b70d953bc1c067bbc8d5bc53194706b628d9",
+            "reference": "0645b70d953bc1c067bbc8d5bc53194706b628d9",
             "shasum": ""
         },
         "require": {
@@ -162,7 +164,10 @@
             "zendframework/zend-cache": "2.*,<2.3",
             "zendframework/zend-log": "2.*,<2.3"
         },
-        "time": "2014-08-11 04:32:36",
+        "suggest": {
+            "guzzlehttp/guzzle": "Guzzle 5 has moved to a new package name. The package you have installed, Guzzle 3, is deprecated."
+        },
+        "time": "2015-03-18 18:23:50",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -191,7 +196,7 @@
                 "homepage": "https://github.com/guzzle/guzzle/contributors"
             }
         ],
-        "description": "Guzzle is a PHP HTTP client library and framework for building RESTful web service clients",
+        "description": "PHP HTTP client. This library is deprecated in favor of https://packagist.org/packages/guzzlehttp/guzzle",
         "homepage": "http://guzzlephp.org/",
         "keywords": [
             "client",

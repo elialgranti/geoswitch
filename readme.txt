@@ -38,9 +38,9 @@ for a GeoIP2 citydatabase. After obtaining the database uncompress it before ins
 2. Optionally copy your MaxMind binary database to the database subdirectory inside the plugin root direcory (GeoSwitch/database). 
    The database should be uncompressed.
 3. In the Wordpress administration settings search for the GeoSwitch configuration page:
-* Select the type of geocoding service to use (local database or webservice). 
-* Enter the name of the database or the user ID and license key depending on the service you've selected.
-* Set the units to use for distance calculations (kilometer or miles).
+4. Select the type of geocoding service to use (local database or webservice). 
+5. Enter the name of the database or the user ID and license key depending on the service you've selected.
+6. Set the units to use for distance calculations (kilometer or miles).
 
 *Note: if you use the local database you should update it periodically.*
 
@@ -97,7 +97,6 @@ Content between the [geoswitch] and [geoswitch_case] shortcodes should be whites
 `
 
 = Informational Shortcodes =
-
 In addition to the conditional block GeoSwitch offers the following shortcodes to display user information:
 
 * `[geoswitch_ip]` - The user’s IP.
@@ -108,19 +107,33 @@ In addition to the conditional block GeoSwitch offers the following shortcodes t
 * `[geoswitch_country_code]` - The user’s country code.
 
 == Change Log ==
-
-= 1.0.0 =
-* Initial release
 = 1.1.0 =
 * Added support for MaxMind GeoIP2 Precision Service (thanks to [Paul Scarrone](https://github.com/ninjapanzer) 
 and [carlcapozza](https://github.com/carlcapozza)).
 * Fixed bug with measurement units. Units were always considered kilometers.
 * Tested under Wordpress 4.1.
+= 1.0.0 =
+* Initial release
 
 == Upgrade Notice ==
+= 1.1.1 =
+Added setting to for user IP for debugging purposes and updated MaxMind Libraries.
 = 1.1.0 =
 Added support for MaxMind GeoIP2 Precision Service and fixed bug with measurement units.
 
 == Frequently Asked Questions ==
+=Why do I see only question marks instead of my location?=
+Your IP was not found in the database. The most usual cause if that your browser and server are behind a NAT and you are 
+getting a private IP not a public one. For debugging purposes you can set the IP used by plug-in in the settings page. 
+=My location is wrong/partial. How comes?=
+Geolocation using IP addresses is not entirely accurate. The geolocation relies on a static database of addresses and 
+their approximate location, not exact location like mobile GPS. 
+To ensure maximum accuracy make sure you have the latest database. Purchasing the non-lite version of the database from MaxMind 
+or a license for their service may also yield better information.
+I am not affiliated in any way with MaxMind, so it is up to you to contact them and evaluate their offers for suitability to your purposes.
+=How do I test other locations?=
+You can set the IP used in by the pug-in in the settings page and use Google to search for IPs in the location you are interested 
+in (i.e. IP in California).
+Debug overrides for other setting are coming.
 
 == Screenshots ==
