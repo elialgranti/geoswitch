@@ -122,16 +122,16 @@ Added setting to for user IP for debugging purposes and updated MaxMind Librarie
 Added support for MaxMind GeoIP2 Precision Service and fixed bug with measurement units.
 
 == Frequently Asked Questions ==
-=Why do I see only question marks instead of my location?=
+= Why do I see only question marks instead of my location? =
 Your IP was not found in the database. The most usual cause if that your browser and server are behind a NAT and you are 
 getting a private IP not a public one. For debugging purposes you can set the IP used by plug-in in the settings page. 
-=My location is wrong/partial. How comes?=
+= My location is wrong/partial. How come? =
 Geolocation using IP addresses is not entirely accurate. The geolocation relies on a static database of addresses and 
 their approximate location, not exact location like mobile GPS. 
 To ensure maximum accuracy make sure you have the latest database. Purchasing the non-lite version of the database from MaxMind 
 or a license for their service may also yield better information.
 I am not affiliated in any way with MaxMind, so it is up to you to contact them and evaluate their offers for suitability to your purposes.
-=How do I test other locations?=
+= How do I test other locations? =
 You can set the IP used in by the pug-in in the settings page and use Google to search for IPs in the location you are interested 
 in (i.e. IP in California).
 Debug overrides for other setting are coming.
