@@ -19,15 +19,22 @@ class GeoSwitchAdmin {
     
     public static function admin_init() {    
         register_setting( 'geoswitch_options', 'geoswitch_options', array('GeoSwitchAdmin', 'validate') );
+		
         add_settings_section('geoswitch_main', 'Geolocation Service Settings', array('GeoSwitchAdmin', 'data_source_section_text'), 'geoswitch_options_data_source_page');
-        add_settings_field('geoswitch_data_source', 'Select Geolocation Service', array('GeoSwitchAdmin', 'data_source'), 'geoswitch_options_data_source_page', 'geoswitch_main');
-        add_settings_section('geoswitch_main', 'Local DataBase Settings', array('GeoSwitchAdmin', 'localdb_section_text'), 'geoswitch_options_localdb_page');
-        add_settings_field('geoswitch_database_name', 'MaxMind Database Name', array('GeoSwitchAdmin', 'database_name'), 'geoswitch_options_localdb_page', 'geoswitch_main');
-        add_settings_section('geoswitch_main', 'Web Service Settings', array('GeoSwitchAdmin', 'webservice_section_text'), 'geoswitch_options_webservice_page');
-        add_settings_field('geoswitch_service_user_name', 'User ID', array('GeoSwitchAdmin', 'service_user_name'), 'geoswitch_options_webservice_page', 'geoswitch_main');
+	    add_settings_field('geoswitch_data_source', 'Select Geolocation Service', array('GeoSwitchAdmin', 'data_source'), 'geoswitch_options_data_source_page', 'geoswitch_main');
+		
+		add_settings_section('geoswitch_main', 'Local DataBase Settings', array('GeoSwitchAdmin', 'localdb_section_text'), 'geoswitch_options_localdb_page');
+		add_settings_field('geoswitch_database_name', 'MaxMind Database Name', array('GeoSwitchAdmin', 'database_name'), 'geoswitch_options_localdb_page', 'geoswitch_main');
+        
+		add_settings_section('geoswitch_main', 'Web Service Settings', array('GeoSwitchAdmin', 'webservice_section_text'), 'geoswitch_options_webservice_page');
+		add_settings_field('geoswitch_service_user_name', 'User ID', array('GeoSwitchAdmin', 'service_user_name'), 'geoswitch_options_webservice_page', 'geoswitch_main');
         add_settings_field('geoswitch_service_license_key', 'License key', array('GeoSwitchAdmin', 'service_license_key'), 'geoswitch_options_webservice_page', 'geoswitch_main');
-        add_settings_section('geoswitch_main', 'Measurement Settings', array('GeoSwitchAdmin', 'measurement_section_text'), 'geoswitch_options_measurement_page');
+
+		add_settings_section('geoswitch_main', 'Measurement Settings', array('GeoSwitchAdmin', 'measurement_section_text'), 'geoswitch_options_measurement_page');
         add_settings_field('geoswitch_units', 'Distance Units', array('GeoSwitchAdmin', 'units'), 'geoswitch_options_measurement_page', 'geoswitch_main');
+        
+		add_settings_section('geoswitch_main', 'Debug Settings', array('GeoSwitchAdmin', 'debug_section_text'), 'geoswitch_options_debug_page');
+		add_settings_field('geoswitch_debug_ip', 'User IP', array('GeoSwitchAdmin', 'debug_ip'), 'geoswitch_options_debug_page', 'geoswitch_main');
     }
 
     public static function add_menu() {
@@ -48,6 +55,7 @@ class GeoSwitchAdmin {
     do_settings_sections('geoswitch_options_localdb_page'); 
     do_settings_sections('geoswitch_options_webservice_page'); 
     do_settings_sections('geoswitch_options_measurement_page'); 
+	do_settings_sections('geoswitch_options_debug_page'); 
 ?>
 <input name="Submit" type="submit" value="<?php esc_attr_e('Save Changes'); ?>" />
 </form>
@@ -66,6 +74,12 @@ class GeoSwitchAdmin {
     public static function measurement_section_text() {
     }
 
+	public static function debug_section_text() {
+?>
+		These settings override the real settings for debugging purposes. Leave empty to disable.
+<?php
+    }
+	
     public static function data_source() {
         $options =  GeoSwitch::get_options();
 ?>
@@ -112,6 +126,15 @@ class GeoSwitchAdmin {
 </select>
 <?php
     }
+	
+	public static function debug_ip() {
+        $options =  GeoSwitch::get_options();
+        
+?>
+<input id='geoswitch_debug_ip' name='geoswitch_options[debug_ip]' size='64' type='text' value='<?= $options['debug_ip']?>' />
+
+<?php
+    }
 
     public static function validate($input)
     {
@@ -123,6 +146,7 @@ class GeoSwitchAdmin {
         } else {
             $newinput['database_name'] = 'GeoLite2-City.mmdb';
         }
+
         if (isset($input['data_source'])) {
             $newinput['data_source'] = ($input['data_source'] == 'localdb' ? 'localdb' : 'webservice');
         } else {
@@ -138,9 +162,20 @@ class GeoSwitchAdmin {
         if (isset($input['service_user_name'])){
             $newinput['service_user_name'] = trim($input['service_user_name']);
         }
+
         if (isset($input['service_license_key'])){
             $newinput['service_license_key'] = trim($input['service_license_key']);
         }
+		
+		 if (isset($input['debug_ip'])) {
+            $newinput['debug_ip'] = trim($input['debug_ip']);
+            if(!preg_match('/^[a-z0-9.:]+/i', $newinput['debug_ip'])) {
+                $newinput['debug_ip'] = '';
+            }
+        } else {
+            $newinput['debug_ip'] = '';
+        }
+
         return $newinput;
     }
 }
