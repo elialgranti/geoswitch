@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: geocode, geocode switch, geocode filter, geotag, geomarketing, geomarking, geolocation, geofilter, location, local marketing, GeoIP2, MaxMind
 Version: 1.1.1
 Requires at least: 3.0
-Tested up to: 4.2.1
+Tested up to: 4.3
 Stable tag: 1.1.1
 License: GPLv2 or later for plugin code, Apache License version 2.0 for Maxmind library under vendor directory
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
