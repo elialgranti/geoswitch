@@ -44,6 +44,7 @@ class GeoSwitch {
         add_shortcode('geoswitch_country_code', array( 'GeoSwitch', 'get_country_code' ));
         add_shortcode('geoswitch_latitude', array( 'GeoSwitch', 'get_latitude' ));
         add_shortcode('geoswitch_longitude', array( 'GeoSwitch', 'get_longitude' ));
+        add_shortcode('geoswitch_setip', array( 'GeoSwitch', 'set_ip' ));
     }
 
     public static function request_record($opts) {
@@ -70,34 +71,32 @@ class GeoSwitch {
 
 	public static function switch_case($atts, $content) {
 		if (!is_null(self::$found))
-			return;
+			return '';
 		
 		$expandedContent = do_shortcode($content);
-		
+        
         if (is_null(self::$record)) {
-            if (!empty($atts['city']) ||
-                !empty($atts['state']) ||
-                !empty($atts['state_code']) ||
-                !empty($atts['country']) ||
-                !empty($atts['country_code']) ||
-                !empty($atts['within']) ||
-                !empty($atts['from'])) {
-                    self::$found = '';
-            } else {
+            if (empty($atts['city']) &&
+                empty($atts['state']) &&
+                empty($atts['state_code']) &&
+                empty($atts['country']) &&
+                empty($atts['country_code']) &&
+                empty($atts['within']) &&
+                empty($atts['from'])) {
 				self::$found = $expandedContent;
             }
 			return '';
         }
 
-        if ((empty($atts['city']) || strcasecmp($atts['city'], self::$record->city->name) == 0)
+        if ((empty($atts['city']) || self::compare_attribute($atts['city'], self::$record->city->name))
             &&
-            (empty($atts['state']) || strcasecmp($atts['state'], self::$record->mostSpecificSubdivision->name) == 0)
+            (empty($atts['state']) || self::compare_attribute($atts['state'], self::$record->mostSpecificSubdivision->name))
             &&
-            (empty($atts['state_code']) || strcasecmp($atts['state_code'], self::$record->mostSpecificSubdivision->isoCode) == 0)
+            (empty($atts['state_code']) || self::compare_attribute($atts['state_code'], self::$record->mostSpecificSubdivision->isoCode))
             &&
-            (empty($atts['country']) || strcasecmp($atts['country'], self::$record->country->name) == 0)
+            (empty($atts['country']) || self::compare_attribute($atts['country'], self::$record->country->name))
             &&
-            (empty($atts['country_code']) || strcasecmp($atts['country_code'], self::$record->country->isoCode) == 0)
+            (empty($atts['country_code']) || self::compare_attribute($atts['country_code'], self::$record->country->isoCode))
             &&
             (empty($atts['within']) || self::within($atts['within'], $atts['from']))) {
 			self::$found = $expandedContent;
@@ -158,6 +157,14 @@ class GeoSwitch {
         return self::$record->location->longitude;
     }
 
+    public static function set_ip($atts, $content) {
+        if (!empty($atts['ip'])) {
+            self::$user_ip = $atts['ip'];
+            self::$record = self::get_record();
+        }
+        return '';
+    }
+
     public static function activation() {
         $default_options=array(
             'database_name'=>'GeoLite2-City.mmdb',
@@ -191,6 +198,18 @@ class GeoSwitch {
             $opt['debug_ip']='';
 
         return $opt;
+    }
+
+    private static function compare_attribute($test, $expected) {
+        $tests = explode(',', $test);
+        $expected = trim($expected);
+
+
+        foreach ($tests as $value) {
+            if (strcasecmp(trim($value), $expected) == 0)
+                return TRUE;
+        }
+        return FALSE;
     }
 
     private static function within($within, $from) {

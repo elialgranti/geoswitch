@@ -10,6 +10,7 @@ Bones.esproj/
 ## IDEs
 ############
 
+.vscode/
 *.pydevproject
 .project
 .metadata

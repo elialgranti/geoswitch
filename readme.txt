@@ -2,10 +2,10 @@
 Contributors: elialgranti
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=C7QAD2M3L5T6E
 Tags: geocode, geocode switch, geocode filter, geotag, geomarketing, geomarking, geolocation, geofilter, location, local marketing, GeoIP2, MaxMind
-Version: 1.1.1
+Version: 1.1.2
 Requires at least: 3.0
-Tested up to: 4.3
-Stable tag: 1.1.1
+Tested up to: 4.8
+Stable tag: 1.1.2
 License: GPLv2 or later for plugin code, Apache License version 2.0 for Maxmind library under vendor directory
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -106,7 +106,14 @@ In addition to the conditional block GeoSwitch offers the following shortcodes t
 * `[geoswitch_country]` - The user’s country name.
 * `[geoswitch_country_code]` - The user’s country code.
 
+If the IP of the user cannot be geo located these shortcodes return '?'
+
 == Change Log ==
+= 1.1.2 =
+Bug fix: when IP cannot be found plugin correctly evaluates all cases and uses default empty case (if it exists), instead of not displaying anything.
+Implemented support for comma separated values in geoswitch_case shortcode. Previous version mentioned this feature in the Readme file, but it was not actually implemented.
+= 1.1.1 =
+Added setting to for user IP for debugging purposes and updated MaxMind Libraries.
 = 1.1.0 =
 * Added support for MaxMind GeoIP2 Precision Service (thanks to [Paul Scarrone](https://github.com/ninjapanzer) 
 and [carlcapozza](https://github.com/carlcapozza)).
@@ -116,6 +123,9 @@ and [carlcapozza](https://github.com/carlcapozza)).
 * Initial release
 
 == Upgrade Notice ==
+= 1.1.2 =
+Bug fix: when IP cannot be found plugin correctly evaluates all cases and uses default empty case (if it exists), instead of not displaying anything.
+Implemented support for comma separated values in geoswitch_case code block. Previous version mentioned this feature in the Readme file, but it was not actually implemented.
 = 1.1.1 =
 Added setting to for user IP for debugging purposes and updated MaxMind Libraries.
 = 1.1.0 =
