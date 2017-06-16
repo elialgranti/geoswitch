@@ -1,4 +1,4 @@
-=== Geocode Switch ===
+== Geocode Switch ==
 Contributors: elialgranti
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=C7QAD2M3L5T6E
 Tags: geocode, geocode switch, geocode filter, geotag, geomarketing, geomarking, geolocation, geofilter, location, local marketing, GeoIP2, MaxMind
@@ -108,6 +108,15 @@ In addition to the conditional block GeoSwitch offers the following shortcodes t
 
 If the IP of the user cannot be geo located these shortcodes return '?'
 
+= Debug Shortcodes =
+* `geoswitch_setip` - Override the user IP. Affects shortcodes after this one.
+Usage:
+
+`
+[geoswitch_case ip='10.0.0.10']
+`
+For debugging whole websites the user IP can be set globally in the admin settings for the plugin.
+
 == Change Log ==
 = 1.1.2 =
 Bug fix: when IP cannot be found plugin correctly evaluates all cases and uses default empty case (if it exists), instead of not displaying anything.
@@ -142,8 +151,8 @@ To ensure maximum accuracy make sure you have the latest database. Purchasing th
 or a license for their service may also yield better information.
 I am not affiliated in any way with MaxMind, so it is up to you to contact them and evaluate their offers for suitability to your purposes.
 = How do I test other locations? =
-You can set the IP used in by the pug-in in the settings page and use Google to search for IPs in the location you are interested 
-in (i.e. IP in California).
+You can set the IP used in by the plug-in in the settings page and use Google to search for IPs in the location you are interested 
+in (i.e. IP in California) or use the `geoswitch_setip` shortcode.
 Debug overrides for other setting are coming.
 
 == Screenshots ==
