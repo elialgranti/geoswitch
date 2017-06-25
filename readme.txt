@@ -132,9 +132,11 @@ and [carlcapozza](https://github.com/carlcapozza)).
 * Initial release
 
 == Upgrade Notice ==
-= 1.1.2 =
+= 1.1.3 =
 Bug fix: when IP cannot be found plugin correctly evaluates all cases and uses default empty case (if it exists), instead of not displaying anything.
 Implemented support for comma separated values in geoswitch_case code block. Previous version mentioned this feature in the Readme file, but it was not actually implemented.
+= 1.1.2 =
+Error deploying to wordpress. Use version 1.1.3 instead.
 = 1.1.1 =
 Added setting to for user IP for debugging purposes and updated MaxMind Libraries.
 = 1.1.0 =
