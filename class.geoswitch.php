@@ -235,6 +235,15 @@ class GeoSwitch {
 	private static function get_record() {
 		if (is_null(self::$data_source))
 			return null;
+		// a hook to short-circuit IP checking.
+		if ( apply_filters( 'geoswitch_skip_ip_check', false, self::$user_ip ) ) {
+			return null;
+		}
+		
+		// skips checking for private/restricted IP addresses.
+		if ( ! filter_var( self::$user_ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE ) ) {
+			return null;
+		}
 		
 		try {
 			return self::$data_source->city(self::$user_ip);
