@@ -1,11 +1,11 @@
-== Geocode Switch ==
+=== Geocode Switch ===
 Contributors: elialgranti
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=C7QAD2M3L5T6E
 Tags: geocode, geocode switch, geocode filter, geotag, geomarketing, geomarking, geolocation, geofilter, location, local marketing, GeoIP2, MaxMind
-Version: 1.1.3
+Version: 1.1.4
 Requires at least: 3.0
-Tested up to: 4.8
-Stable tag: 1.1.3
+Tested up to: 4.9.7
+Stable tag: 1.1.4
 License: GPLv2 or later for plugin code, Apache License version 2.0 for Maxmind library under vendor directory
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,10 +117,35 @@ Usage:
 `
 For debugging whole websites the user IP can be set globally in the admin settings for the plugin.
 
+= Filter Hooks =
+Geoswitch supports the following filter hooks:
+`geoswitch_skip_ip_check`
+Allows to programatically skip the ip check. If the hook callback function returns true the MaxMind libraries are not used to check the IP and the 
+default content (if configured) will be displayed.
+Usage:
+
+`
+function skip_ip_callback( $skipCheck, $userIp ) {
+    if ( some_custom_test($userIp) ) {
+        $skipCheck = true;
+    }
+    return $skipChek;
+}
+
+add_filter( 'geoswitch_skip_ip_check', 'skip_ip_callback', 10, 2 );
+`
+
+
 == Change Log ==
-= 1.1.2 =
+= 1.1.4 =
+* Bug fix: Private and reserved IPs are not checked and no longer generate 
+* Added filter hook `geoswitch_skip_ip_check` to bypass the ip check based on 
+(Thanks to [Arūnas Liuiza](https://github.com/ideag) from [arunas.co](https://arunas.co/) for the BugFix and filter hook)
+= 1.1.3 =
 Bug fix: when IP cannot be found plugin correctly evaluates all cases and uses default empty case (if it exists), instead of not displaying anything.
 Implemented support for comma separated values in geoswitch_case shortcode. Previous version mentioned this feature in the Readme file, but it was not actually implemented.
+= 1.1.2 =
+Error deploying to wordpress. Use version 1.1.3 instead.
 = 1.1.1 =
 Added setting to for user IP for debugging purposes and updated MaxMind Libraries.
 = 1.1.0 =
@@ -132,15 +157,10 @@ and [carlcapozza](https://github.com/carlcapozza)).
 * Initial release
 
 == Upgrade Notice ==
-= 1.1.3 =
-Bug fix: when IP cannot be found plugin correctly evaluates all cases and uses default empty case (if it exists), instead of not displaying anything.
-Implemented support for comma separated values in geoswitch_case code block. Previous version mentioned this feature in the Readme file, but it was not actually implemented.
-= 1.1.2 =
-Error deploying to wordpress. Use version 1.1.3 instead.
-= 1.1.1 =
-Added setting to for user IP for debugging purposes and updated MaxMind Libraries.
-= 1.1.0 =
-Added support for MaxMind GeoIP2 Precision Service and fixed bug with measurement units.
+= 1.1.4 =
+* Bug fix: Private and reserved IPs are not checked and no longer generate 
+* Added filter hook `geoswitch_skip_ip_check` to bypass the ip check based on 
+(Thanks to [Arūnas Liuiza](https://github.com/ideag) from [arunas.co](https://arunas.co/) for the BugFix and filter hook)
 
 == Frequently Asked Questions ==
 = Why do I see only question marks instead of my location? =
